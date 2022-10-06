@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -Sal ./ ../ /boot/
+ls -al . .. /boot
