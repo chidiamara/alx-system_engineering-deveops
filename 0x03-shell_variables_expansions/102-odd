@@ -1,2 +1,2 @@
 #!/bin/bash
-paste -d, - - | cut -d, -f1
+xargs -n2 | cut -d' ' --fields=1
