@@ -1,2 +1,2 @@
 #!/bin/bash
-paste -d, - - | cut -df10
+printf '%x\n' $DECIMAL
