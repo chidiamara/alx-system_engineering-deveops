@@ -1,2 +1,2 @@
 #!/bin/bash
-paste -d, - - | cut -df1
+paste -d, - - | cut -df10
