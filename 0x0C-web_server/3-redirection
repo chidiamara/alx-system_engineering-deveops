@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # a bash script that configure nginx server to redirect
 # to redirect to another page
+
 sudo apt-get -y update
 sudo apt-get -y install nginx
-redirect="\trewrite \^\/redirect_me\/\$ https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent\;"
-server="0,/server\s+\{/s//& \n"
+redirect="\n\trewrite \^\/redirect_me\/\$ https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent\;"
+server="0,/server\s+\{/s//&"
 config="/etc/nginx/sites-enabled/default"
 sudo sed -i "${server}${redirect}/" $config
 service nginx start
