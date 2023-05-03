@@ -1,0 +1,13 @@
+#!/bin/env bash
+"""
+This script installs Nginx, Configure Nginx to listen on port 80 and allow incoming
+traffic on port 80, then start nginx
+"""
+
+sudo apt update
+sudo apt install -y nginx
+sudo sed -i 's/listen \[::\]:80 default_server;/listen [::]:80;/' /etc/nginx/sites-enabled/default
+sudo ufw allow 80/tcp
+if ! sudo service nginx start; then
+  echo "nginx is not running"
+fi
