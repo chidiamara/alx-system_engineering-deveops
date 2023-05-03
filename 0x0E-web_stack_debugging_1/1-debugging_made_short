@@ -1,0 +1,7 @@
+#!/bin/env bash
+
+sudo apt update
+sudo apt install -y nginx
+sudo sed -i 's/listen [::]:80 default_server;/listen [::]:80;/' /etc/nginx/sites-enabled/default
+sudo ufw allow 80/tcp
+sudo service nginx start || echo "nginx is not running"
