@@ -2,35 +2,31 @@
 
 # Configuration of web-02 server
 
-#nginx installation and home page content changes.
-
+# Install Nginx and create home page
 sudo apt-get -y update
 sudo apt-get -y install nginx
 sudo service nginx start
 sudo ufw allow 'Nginx HTTP'
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
+echo "Hollo World!" > /var/www/html/index.nginx-debian.html
 
-# redirection
+# Configure redirection
+redirect_config="\trewrite \^\/redirect_me\/\$ https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent\;"
+nginx_conf_file="/etc/nginx/sites-enabled/default"
+server_block_pattern="0,/server\s+\{/s//& \n"
+sudo sed -i -E "${server_block_pattern}${redirect_config}/" $nginx_conf_file
 
-new_config="\trewrite \^\/redirect_me\/\$ https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent\;"
-conf_file="/etc/nginx/sites-enabled/default"
-server="0,/server\s+\{/s//& \n"
-sudo sed -i -E "${server}${new_config}/" $conf_file
-
-# customize 404 page
-
+# Customize 404 page
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
-new_config="\\\n\terror_page 404 /custom_404.html;\n"
-file="/etc/nginx/sites-enabled/default"
-sudo sed -i "43i $new_config" $file
+custom_404_config="\\\n\terror_page 404 /custom_404.html;\n"
+nginx_conf_file="/etc/nginx/sites-enabled/default"
+sudo sed -i "43i $custom_404_config" $nginx_conf_file
 
-# add a custom http header
-
-st="http {"
+# Add custom HTTP header
+http_block_pattern="http {"
 hostname=$(cat /etc/hostname)
-myc="\n\tadd_header X-Served-By \"$hostname\";"
-sudo sed -i "0,/$st/{s/$st/$st$myc/}" /etc/nginx/nginx.conf
+custom_header="\n\tadd_header X-Served-By \"$hostname\";"
+nginx_conf_file="/etc/nginx/nginx.conf"
+sudo sed -i "0,|$http_block_pattern|{s|$http_block_pattern|$http_block_pattern$custom_header|}" $nginx_conf_file
 
-#restart nginx to make changes work.
-
+# Restart Nginx to apply changes
 sudo service nginx restart
