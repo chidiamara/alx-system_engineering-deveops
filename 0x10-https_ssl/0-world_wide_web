@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# a Bash script that displays information about subdomains
+info () {
+# shellcheck disable=SC2086
+if [ $# -eq 2 ]
+then
+    sub="$2"
+    dig $2.$1 | grep -A1 'ANSWER SECTION:' | tail -1 | awk '{print "The subdomain '$sub' is a "$4" record and points to "$NF""}'
+
+elif [ $# -eq 1 ]
+then
+    subs=('www' 'lb-01' 'web-01' 'web-02')
+    for each in "${subs[@]}"
+    do
+        dig $each.$1 | grep -A1 'ANSWER SECTION:' | tail -1 | awk '{print "The subdomain '$each' is a "$4" record and points to "$NF""}'
+    done
+fi
+}
+
+info $1 $2
