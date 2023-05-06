@@ -17,4 +17,4 @@ then
 fi
 }
 
-info $1 $2
+info "$1 $2"
