@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-"""
-This script installs Nginx, Configure Nginx to listen on port 80 and allow incoming
-traffic on port 80, then start nginx
-"""
+# container debug commands
 st="\tlisten 8080 default_server\;"
 newst="\tlisten 80 default_server\;"
 st2="\tlisten \[::\]:8080 default_server"
