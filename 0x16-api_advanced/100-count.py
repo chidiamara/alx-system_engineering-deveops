@@ -1,13 +1,13 @@
 #!/usr/bin/python3
+"""
+Queries the Reddit API, parses the title of all hot
+articles, and prints a sorted count of given keywords
+"""
 
 import requests
 
 
 def count_words(subreddit, word_list, after=None, word_dict=None):
-    """
-    Queries the Reddit API, parses the title of all hot
-    articles, and prints a sorted count of given keywords
-    """
     if not isinstance(subreddit, str) or subreddit is None:
         return None
     if not isinstance(word_list, list) or word_list is None:
